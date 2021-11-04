@@ -1,0 +1,6 @@
+{
+	"appId": "com.demo.app",
+	"appName": "live update demo",
+	"webDir": "dist",
+	"bundledWebRuntime": false
+}

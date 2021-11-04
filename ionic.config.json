@@ -1,0 +1,7 @@
+{
+  "name": "live-update-demo",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "vue"
+}
