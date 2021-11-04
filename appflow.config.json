@@ -1,0 +1,5 @@
+{
+  "appId": "e83e1015",
+  "dependencyInstallCommand": "yarn",
+  "webBuildCommand": "yarn build"
+}
