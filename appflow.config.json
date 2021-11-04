@@ -2,6 +2,7 @@
   "apps": [
     {
       "appId": "e83e1015",
+      "root": ".",
       "dependencyInstallCommand": "yarn",
       "webBuildCommand": "yarn build"
     }    

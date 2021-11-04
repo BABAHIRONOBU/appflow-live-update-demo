@@ -1,6 +1,5 @@
 # appflow-live-update-demo
 
-
 ## Project setup
 ```
 yarn install
