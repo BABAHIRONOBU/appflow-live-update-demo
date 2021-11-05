@@ -15,13 +15,16 @@ onMounted(async () => {
     return;
   }
 
-  const config = await Deploy.getConfiguration();
-  alert(JSON.stringify(config));
+  const update = await Deploy.checkForUpdate();
 
-  const version = await Deploy.getCurrentVersion();
-  alert(JSON.stringify(version));
-
-  const versions = await Deploy.getAvailableVersions();
-  alert(JSON.stringify(versions));
+  if (update.available) {
+    await Deploy.downloadUpdate((progress) => {
+      console.log(progress);
+    });
+    await Deploy.extractUpdate((progress) => {
+      console.log(progress);
+    });
+    await Deploy.reloadApp();
+  }
 });
 </script>
