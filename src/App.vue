@@ -19,10 +19,10 @@ onMounted(async () => {
 
   if (update.available) {
     await Deploy.downloadUpdate((progress) => {
-      console.log(progress);
+      console.log('download progress:', progress);
     });
     await Deploy.extractUpdate((progress) => {
-      console.log(progress);
+      console.log('extract progress:', progress);
     });
     await Deploy.reloadApp();
   }
