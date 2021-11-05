@@ -4,15 +4,24 @@
   </ion-app>
 </template>
 
-<script lang="ts">
+<script lang="ts" setup>
+import { onMounted } from 'vue';
 import { IonApp, IonRouterOutlet } from '@ionic/vue';
-import { defineComponent } from 'vue';
+import { Capacitor } from '@capacitor/core';
+import { Deploy } from 'cordova-plugin-ionic';
 
-export default defineComponent({
-  name: 'App',
-  components: {
-    IonApp,
-    IonRouterOutlet,
-  },
+onMounted(async () => {
+  if (!Capacitor.isNativePlatform) {
+    return;
+  }
+
+  const config = await Deploy.getConfiguration();
+  alert(JSON.stringify(config));
+
+  const version = await Deploy.getCurrentVersion();
+  alert(JSON.stringify(version));
+
+  const versions = await Deploy.getAvailableVersions();
+  alert(JSON.stringify(versions));
 });
 </script>
