@@ -4,9 +4,9 @@
 
     <ion-alert
       :is-open="isOpen"
+      :backdropDismiss="false"
       header="새로운 버전을 설치합니다."
       :message="`${downloadProgress}%`"
-      :buttons="buttons"
       @didDismiss="setOpen(false)"
     />
   </ion-app>
@@ -14,9 +14,7 @@
 
 <script lang="ts" setup>
 import { ref, onMounted } from 'vue';
-import {
-  IonApp, IonRouterOutlet, IonAlert, AlertButton,
-} from '@ionic/vue';
+import { IonApp, IonRouterOutlet, IonAlert } from '@ionic/vue';
 import { Capacitor } from '@capacitor/core';
 import { Deploy } from 'cordova-plugin-ionic';
 
@@ -30,22 +28,6 @@ const setDownloadProgress = (v: number) => {
   downloadProgress.value = v;
 };
 
-const buttons: AlertButton[] = [
-  {
-    text: '확인',
-    handler: async () => {
-      await Deploy.downloadUpdate((progress) => {
-        if (!progress) {
-          return;
-        }
-        setDownloadProgress(progress);
-      });
-      await Deploy.extractUpdate();
-      await Deploy.reloadApp();
-    },
-  },
-];
-
 onMounted(async () => {
   if (!Capacitor.isNativePlatform) {
     return;
@@ -53,6 +35,17 @@ onMounted(async () => {
 
   const update = await Deploy.checkForUpdate();
 
-  setOpen(update.available);
+  if (update.available) {
+    setOpen();
+
+    await Deploy.downloadUpdate((progress) => {
+      if (!progress) {
+        return;
+      }
+      setDownloadProgress(progress);
+    });
+    await Deploy.extractUpdate();
+    await Deploy.reloadApp();
+  }
 });
 </script>
