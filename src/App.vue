@@ -6,7 +6,7 @@
       :is-open="isOpen"
       :backdropDismiss="false"
       header="새로운 버전을 설치합니다."
-      :message="`${downloadProgress}%`"
+      message="설치중입니다. 잠시만 기다려주세요."
       @didDismiss="setOpen(false)"
     />
   </ion-app>
@@ -23,11 +23,6 @@ const setOpen = (v = true) => {
   isOpen.value = v;
 };
 
-const downloadProgress = ref(0);
-const setDownloadProgress = (v: number) => {
-  downloadProgress.value = v;
-};
-
 onMounted(async () => {
   if (!Capacitor.isNativePlatform) {
     return;
@@ -39,10 +34,7 @@ onMounted(async () => {
     setOpen();
 
     await Deploy.downloadUpdate((progress) => {
-      if (!progress) {
-        return;
-      }
-      setDownloadProgress(progress);
+      console.log(`download ${progress}% completed`);
     });
     await Deploy.extractUpdate();
     await Deploy.reloadApp();
